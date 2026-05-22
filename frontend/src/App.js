@@ -218,7 +218,7 @@ export default function App() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "video/*": [] },
     multiple: true,
-    onDrop: (files) => setVideos(prev => [...prev, ...files]),<input {...getInputProps()}/>
+    onDrop: (files) => setVideos(prev => [...prev, ...files]),
   });
 
   const toggleEffect = (id) =>
