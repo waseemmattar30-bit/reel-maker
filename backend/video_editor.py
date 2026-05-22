@@ -367,6 +367,11 @@ def create_reel(matched, audio_path, output_path="output_reel.mp4",
     for p in unique_paths:
         try:
             loaded[p] = VideoFileClip(p)
+            w, h = loaded[p].size
+            if h > w:  # vertical video
+                loaded[p] = loaded[p].resize(height=1080)
+            else:  # horizontal video
+                loaded[p] = loaded[p].resize(width=1920)
             print(f"✅ Loaded: {p}")
         except Exception as e:
             print(f"⚠️ Failed {p}: {e}")
