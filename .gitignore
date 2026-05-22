@@ -8,3 +8,6 @@ __pycache__/
 *.MP3
 *.mp3
 *.wav
+backend/venv/
+backend/outputs/
+backend/uploads/
