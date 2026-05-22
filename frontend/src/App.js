@@ -176,13 +176,13 @@ function AudioTrimmer({audio, duration, trimStart, trimEnd, onTrimChange, onRemo
         <div style={{position:"absolute",top:-4,bottom:-4,left:`${curPct}%`,width:2,background:"#fff",borderRadius:1,pointerEvents:"none"}}/>
 
         {/* Start handle */}
-        <div onMouseDown={e=>handleBarClick(e,"start")} onTouchStart={e=>handleBarClick(e,"start")} style={{position:"absolute",top:-6,bottom:-6,left:`${startPct}%`,width:12,background:"#7c6aff",borderRadius:3,cursor:"ew-resize",transform:"translateX(-50%)",zIndex:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
-          <div style={{width:2,height:16,background:"rgba(255,255,255,0.8)",borderRadius:1}}/>
+        <div onMouseDown={e=>handleBarClick(e,"start")} onTouchStart={e=>handleBarClick(e,"start")} style={{position:"absolute",top:-12,bottom:-12,left:`${startPct}%`,width:32,background:"#7c6aff",borderRadius:6,cursor:"ew-resize",transform:"translateX(-50%)",zIndex:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <div style={{width:3,height:20,background:"rgba(255,255,255,0.8)",borderRadius:2}}/>
         </div>
 
         {/* End handle */}
-        <div onMouseDown={e=>handleBarClick(e,"end")} onTouchStart={e=>handleBarClick(e,"end")} style={{position:"absolute",top:-6,bottom:-6,left:`${endPct}%`,width:12,background:"#7c6aff",borderRadius:3,cursor:"ew-resize",transform:"translateX(-50%)",zIndex:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
-          <div style={{width:2,height:16,background:"rgba(255,255,255,0.8)",borderRadius:1}}/>
+        <div onMouseDown={e=>handleBarClick(e,"end")} onTouchStart={e=>handleBarClick(e,"end")} style={{position:"absolute",top:-12,bottom:-12,left:`${endPct}%`,width:32,background:"#7c6aff",borderRadius:6,cursor:"ew-resize",transform:"translateX(-50%)",zIndex:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <div style={{width:3,height:20,background:"rgba(255,255,255,0.8)",borderRadius:2}}/>
         </div>
 
         {/* End handle */}
