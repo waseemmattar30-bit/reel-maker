@@ -14,6 +14,7 @@ from video_editor import create_reel
 
 app = FastAPI()
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://reel-maker-dusky.vercel.app"],
