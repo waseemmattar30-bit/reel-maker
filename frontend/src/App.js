@@ -208,6 +208,7 @@ export default function App() {
   const [audioTrimEnd, setAudioTrimEnd] = useState(null);
   const [audioDuration, setAudioDuration] = useState(0);
   const [audioPlaying, setAudioPlaying] = useState(false);
+  const [videosLoading, setVideosLoading] = useState(false);
   
   // Text overlays
   const [wantText, setWantText] = useState(null);
@@ -300,6 +301,12 @@ console.log("textOverlays before editor:", textOverlays);
                 ))}
               </div>
             )}
+            {videosLoading && (
+  <div style={{color:"#7c6aff",fontSize:13,marginBottom:8}}>
+    <div style={s.spinnerBig}/>
+    <p>Loading videos...</p>
+  </div>
+)}
             {videos.length > 0 && (
               <button style={s.mainBtn} onClick={()=>setStep(2)}><span>Continue</span>{IC.arrow}</button>
             )}
@@ -318,16 +325,13 @@ console.log("textOverlays before editor:", textOverlays);
       <label style={{cursor:"pointer",display:"block",width:"100%"}}>
         <input type="file" accept="audio/*" style={{display:"none"}}
           onChange={e=>{
-            const f=e.target.files[0];
-            if(!f)return;
-            setAudio(f);
-            const url=URL.createObjectURL(f);
-            const a=new Audio(url);
-            a.onloadedmetadata=()=>{
-              setAudioDuration(a.duration);
-              setAudioTrimEnd(a.duration);
-            };
-          }}/>
+           setVideosLoading(true);
+           const files = Array.from(e.target.files);
+           setTimeout(()=>{
+           setVideos(prev => [...prev, ...files]);
+           setVideosLoading(false);
+               }, 100);
+                 }}
         <div style={{...s.bigDrop,borderColor:"rgba(255,255,255,0.08)",background:"rgba(255,255,255,0.02)",cursor:"pointer"}}>
           <div style={s.dropInner}>
             <div style={{color:"#2a2a4a",marginBottom:12}}>{IC.music}</div>
