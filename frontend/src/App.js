@@ -217,7 +217,8 @@ export default function App() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "video/*": [] },
-    onDrop: (files) => setVideos(prev => [...prev, ...files]),
+    multiple: true,
+    onDrop: (files) => setVideos(prev => [...prev, ...files]),<input {...getInputProps()}/>
   });
 
   const toggleEffect = (id) =>
@@ -281,7 +282,7 @@ console.log("textOverlays before editor:", textOverlays);
             <h1 style={s.stepTitle}>Upload your videos</h1>
             <p style={s.stepSub}>Add as many clips as you want — we'll sync them to the beat</p>
             <div {...getRootProps()} style={{...s.bigDrop, borderColor: isDragActive?"#7c6aff":"rgba(255,255,255,0.08)", background: isDragActive?"rgba(124,106,255,0.06)":"rgba(255,255,255,0.02)"}}>
-              <input {...getInputProps()}/>
+              <input {...getInputProps()} multiple/>
               <div style={s.dropInner}>
                 <div style={{color: isDragActive?"#7c6aff":"#2a2a4a",marginBottom:12}}>{IC.upload}</div>
                 <p style={s.dropTxt}>{isDragActive?"Drop here!":"Drag & drop or click to select"}</p>
