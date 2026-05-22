@@ -113,20 +113,30 @@ function AudioTrimmer({audio, duration, trimStart, trimEnd, onTrimChange, onRemo
 
   const fmt = s => `${Math.floor(s/60)}:${Math.floor(s%60).toString().padStart(2,"0")}`;
 
-  const handleBarClick = (e, type)=>{
+   const handleBarClick = (e, type)=>{
     e.stopPropagation();
     const bar = barRef.current;
     if(!bar) return;
+    
+    const getX = (ev) => ev.touches ? ev.touches[0].clientX : ev.clientX;
+    
     const onMove = mv=>{
       const rect = bar.getBoundingClientRect();
-      const pct = Math.max(0, Math.min(1, (mv.clientX-rect.left)/rect.width));
+      const pct = Math.max(0, Math.min(1, (getX(mv)-rect.left)/rect.width));
       const t = pct * duration;
       if(type==="start") onTrimChange(Math.min(t, trimEnd-1), trimEnd);
       else onTrimChange(trimStart, Math.max(t, trimStart+1));
     };
-    const onUp = ()=>{ window.removeEventListener("mousemove",onMove); window.removeEventListener("mouseup",onUp); };
+    const onUp = ()=>{ 
+      window.removeEventListener("mousemove",onMove); 
+      window.removeEventListener("mouseup",onUp);
+      window.removeEventListener("touchmove",onMove);
+      window.removeEventListener("touchend",onUp);
+    };
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
+    window.addEventListener("touchmove", onMove);
+    window.addEventListener("touchend", onUp);
   };
 
   const startPct = (trimStart/duration)*100;
@@ -166,7 +176,12 @@ function AudioTrimmer({audio, duration, trimStart, trimEnd, onTrimChange, onRemo
         <div style={{position:"absolute",top:-4,bottom:-4,left:`${curPct}%`,width:2,background:"#fff",borderRadius:1,pointerEvents:"none"}}/>
 
         {/* Start handle */}
-        <div onMouseDown={e=>handleBarClick(e,"start")} style={{position:"absolute",top:-6,bottom:-6,left:`${startPct}%`,width:12,background:"#7c6aff",borderRadius:3,cursor:"ew-resize",transform:"translateX(-50%)",zIndex:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
+        <div onMouseDown={e=>handleBarClick(e,"start")} onTouchStart={e=>handleBarClick(e,"start")} style={{position:"absolute",top:-6,bottom:-6,left:`${startPct}%`,width:12,background:"#7c6aff",borderRadius:3,cursor:"ew-resize",transform:"translateX(-50%)",zIndex:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <div style={{width:2,height:16,background:"rgba(255,255,255,0.8)",borderRadius:1}}/>
+        </div>
+
+        {/* End handle */}
+        <div onMouseDown={e=>handleBarClick(e,"end")} onTouchStart={e=>handleBarClick(e,"end")} style={{position:"absolute",top:-6,bottom:-6,left:`${endPct}%`,width:12,background:"#7c6aff",borderRadius:3,cursor:"ew-resize",transform:"translateX(-50%)",zIndex:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
           <div style={{width:2,height:16,background:"rgba(255,255,255,0.8)",borderRadius:1}}/>
         </div>
 
@@ -323,15 +338,18 @@ console.log("textOverlays before editor:", textOverlays);
 
     {!audio ? (
       <label style={{cursor:"pointer",display:"block",width:"100%"}}>
-        <input type="file" accept="audio/*" style={{display:"none"}}
-          onChange={e=>{
-           setVideosLoading(true);
-           const files = Array.from(e.target.files);
-           setTimeout(()=>{
-           setVideos(prev => [...prev, ...files]);
-           setVideosLoading(false);
-               }, 100);
-                 }}
+      <input type="file" accept="audio/*" style={{display:"none"}}
+  onChange={e=>{
+    const f=e.target.files[0];
+    if(!f)return;
+    setAudio(f);
+    const url=URL.createObjectURL(f);
+    const a=new Audio(url);
+    a.onloadedmetadata=()=>{
+      setAudioDuration(a.duration);
+      setAudioTrimEnd(a.duration);
+    };
+  }}/>
         <div style={{...s.bigDrop,borderColor:"rgba(255,255,255,0.08)",background:"rgba(255,255,255,0.02)",cursor:"pointer"}}>
           <div style={s.dropInner}>
             <div style={{color:"#2a2a4a",marginBottom:12}}>{IC.music}</div>
