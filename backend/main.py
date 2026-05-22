@@ -23,8 +23,8 @@ app.add_middleware(
     expose_headers=["X-Session-ID"],
 )
 
-UPLOAD_DIR = "/data/uploads"
-OUTPUT_DIR = "/data/outputs"
+UPLOAD_DIR = "/tmp/uploads"
+OUTPUT_DIR = "/tmp/outputs"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
