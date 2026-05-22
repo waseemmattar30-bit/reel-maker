@@ -185,6 +185,8 @@ function AudioTrimmer({audio, duration, trimStart, trimEnd, onTrimChange, onRemo
           <div style={{width:3,height:20,background:"rgba(255,255,255,0.8)",borderRadius:2}}/>
         </div>
 
+      </div>
+
       
 
       {/* Controls */}
