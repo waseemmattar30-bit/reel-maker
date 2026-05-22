@@ -245,7 +245,7 @@ export default function App() {
       setTimeout(()=>{setProgress("Matching to beats...");setProgressPct(55);},6000);
       setTimeout(()=>{setProgress("Applying effects...");setProgressPct(75);},10000);
       setTimeout(()=>{setProgress("Exporting reel...");setProgressPct(90);},20000);
-      const res = await axios.post("http://127.0.0.1:8000/generate", fd, {responseType:"blob",timeout:600000});
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/generate`, fd, {responseType:"blob",timeout:600000});
       const sid = res.headers["x-session-id"] || Object.entries(res.headers).find(([k])=>k.toLowerCase()==="x-session-id")?.[1];
       setSessionId(sid);
       setReelUrl(URL.createObjectURL(res.data));

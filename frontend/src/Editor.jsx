@@ -193,7 +193,7 @@ export default function Editor({reelUrl,sessionId,onClose,textOverlays=[]}){
   v.onended=()=>setPlaying(false);
 
   if(sessionId){
-    axios.get(`http://127.0.0.1:8000/clip-info/${sessionId}`)
+    axios.get(`https://reel-maker-9pg6.onrender.com/clip-info/${sessionId}`)
       .then(res=>{if(res.data.clips?.length>0)setClips(res.data.clips);})
       .catch(()=>{});
   }
